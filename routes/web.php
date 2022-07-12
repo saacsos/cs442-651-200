@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/about', function () {
+    return "About Page";
+});
+
+Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
+Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
