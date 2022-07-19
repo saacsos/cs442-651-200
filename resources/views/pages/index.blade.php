@@ -6,7 +6,7 @@
 
     @for($i = 0; $i <= 10; $i++)
         <div>
-            <a href="{{ url("/pages/{$i}") }}">
+            <a href='{{ url("/pages/{$i}") }}'>
                 Page {{ $i }}
             </a>
         </div>
