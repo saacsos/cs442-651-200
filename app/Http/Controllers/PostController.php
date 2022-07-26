@@ -52,9 +52,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)       // dependency injection
     {
-        $post = Post::find($id);
         return view('posts.show', ['post' => $post]);
     }
 
@@ -64,9 +63,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        return "Form for edit {$id}";
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -76,9 +75,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->save();
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -87,8 +89,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Post $post)
     {
-        //
+
+        $title = $request->input('title');
+        if ($title == $post->title) {
+            $post->delete();
+            return redirect()->route('posts.index');
+        }
+
+        return redirect()->back();
     }
 }

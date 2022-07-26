@@ -11,8 +11,10 @@
 </head>
 <body>
     <div>
-        Menu
+        <a href="{{ route('posts.index') }}">All Posts</a> |
+        <a href="{{ route('posts.create') }}">Add New Post</a>
     </div>
+
     <div>
         @yield('content')
     </div>

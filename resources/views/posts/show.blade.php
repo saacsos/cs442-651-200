@@ -15,4 +15,9 @@
         {{ $post->description }}
     </p>
 
+    <div>
+        <a class="app-button" href="{{ route('posts.edit', ['post' => $post->id]) }}">
+            Edit this post
+        </a>
+    </div>
 @endsection

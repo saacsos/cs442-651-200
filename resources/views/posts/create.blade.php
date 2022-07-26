@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <button class="p-4 border-2 bg-green-500" type="submit">Create</button>
+            <button class="app-button" type="submit">Create</button>
         </div>
 
     </form>
