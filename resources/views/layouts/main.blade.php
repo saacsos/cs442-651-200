@@ -8,19 +8,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CS442 200 Laravel</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
-    <div>
-        <a href="{{ route('posts.index') }}">All Posts</a> |
-        <a href="{{ route('posts.create') }}">Add New Post</a>
-    </div>
+
+    @include('layouts._navbar')
 
     <div>
         @yield('content')
     </div>
-    <div>
-        Footer
-    </div>
+
+    @include('layouts._footer')
 </body>
 </html>
