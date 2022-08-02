@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -41,10 +43,35 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
+
+        $tags = $request->get('tags');
+        $tag_ids = $this->syncTags($tags);
+        $post->tags()->sync($tag_ids);
+
         return redirect()->route('posts.show', [ 'post' => $post->id ]);
         //                     --------------------------^
         //                    |
         // GET|HEAD  posts/{post} ........ posts.show › PostController@show
+    }
+
+    private function syncTags($tags)
+    {
+        $tags = explode(",", $tags);
+        $tags = array_map(function ($v) {
+            return Str::ucfirst(trim($v));
+        }, $tags);
+
+        $tag_ids = [];
+        foreach ($tags as $tag_name) {
+            $tag = Tag::where('name', $tag_name)->first();
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->name = $tag_name;
+                $tag->save();
+            }
+            $tag_ids[] = $tag->id;
+        }
+        return $tag_ids;
     }
 
     /**
@@ -55,6 +82,10 @@ class PostController extends Controller
      */
     public function show(Post $post)       // dependency injection
     {
+        if (is_int($post->view_count)) {
+            $post->view_count = $post->view_count + 1;
+            $post->save();
+        }
         return view('posts.show', ['post' => $post]);
     }
 
@@ -66,7 +97,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', ['post' => $post]);
+        $tags = $post->tags->pluck('name')->all();
+        $tags = implode(", ", $tags);
+        return view('posts.edit', ['post' => $post, 'tags' => $tags]);
     }
 
     /**
@@ -81,6 +114,11 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
+
+        $tags = $request->get('tags');
+        $tag_ids = $this->syncTags($tags);
+        $post->tags()->sync($tag_ids);
+
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
 

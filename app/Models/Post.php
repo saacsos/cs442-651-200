@@ -10,10 +10,19 @@ class Post extends Model
 {
     use HasFactory; // trait
 
+    /*
+     * + ฟังก์ชัน tags() คืนค่า ความสัมพันธ์ belongsToMany
+     * + attribute tags คืนค่า collection ของ Tag ที่ผูกกับ Post นี้
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     /**
      * Post hasMany comments (มี s ด้วย)
      * + ฟังก์ชัน comments() คืนค่า ความสัมพันธ์ hasMany
-     * + attribute comments คืนค่า Collection ของ Comment ที่ผูกกับ Post นั้น
+     * + attribute comments คืนค่า Collection ของ Comment ที่ผูกกับ Post นี้
      */
     public function comments()
     {

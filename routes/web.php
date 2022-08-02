@@ -28,3 +28,5 @@ Route::post('/posts/{post}/comments', [\App\Http\Controllers\PostController::cla
     ->name('posts.comments.store');
 
 Route::resource('/posts', \App\Http\Controllers\PostController::class);
+
+Route::resource('/tags', \App\Http\Controllers\TagController::class);
