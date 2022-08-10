@@ -19,6 +19,11 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Post hasMany comments (มี s ด้วย)
      * + ฟังก์ชัน comments() คืนค่า ความสัมพันธ์ hasMany
@@ -56,17 +61,17 @@ class Post extends Model
             );
     }
 
-    public function viewCount() : Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->numberToK($value)
-        );
-    }
-
-    public function likeCount() : Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $this->numberToK($value)
-        );
-    }
+//    public function viewCount() : Attribute
+//    {
+//        return Attribute::make(
+//            get: fn ($value) => $this->numberToK($value)
+//        );
+//    }
+//
+//    public function likeCount() : Attribute
+//    {
+//        return Attribute::make(
+//            get: fn ($value) => $this->numberToK($value)
+//        );
+//    }
 }
